@@ -48,8 +48,14 @@ class VentureCapitalist
     end
 
     def invested(domain_name)
-        portfolio.select do |startup_name|
-            startup_name.domain == domain_name
+        domain_invested = funding_rounds.select do |round|
+            round.startup.domain == domain_name
+        end
+        invested_amount = domain_invested.map do |round|
+            round.investment
+        end
+        invested_amount.reduce do |sum, amount|
+            sum + amount
         end
     end
 
